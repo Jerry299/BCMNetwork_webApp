@@ -1,16 +1,17 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Signup.css";
 import UserContext from "../../Context/UserRegister";
-import Register from "../Auth/Auth";
 import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import userEvent from "@testing-library/user-event";
 
 export default function Signup2() {
 	//import global state for user's input
 	const { formData1, handleInputs, clearInputs } = useContext(UserContext);
+	const userRef = useRef();
 
 	// state for passwod visibilty
 	const [passwordVisiblility1, setPasswordVisibility1] = useState(false);
@@ -27,7 +28,7 @@ export default function Signup2() {
 	/// register http request
 	const Register = (formValues, setResSuccess, setResError) => {
 		axios
-			.post("http://localhost:5000/test", {
+			.post("https://bcnetworks.herokuapp.com/onboarding/signup", {
 				firstName: formValues.firstName,
 				otherName: formValues.otherName,
 				email: formValues.email,
@@ -69,7 +70,7 @@ export default function Signup2() {
 	};
 
 	useEffect(() => {
-		console.log(formData1)
+		userRef.current.focus();
 	}, [formErrors]);
 
 	const validate = (values) => {
@@ -140,6 +141,7 @@ export default function Signup2() {
 							placeholder="ac1384726@gmail.com"
 							value={formData1.email}
 							onChange={handleInputs}
+							ref={userRef}
 						/>
 						<small className="error">{formErrors.email}</small>
 					</div>
