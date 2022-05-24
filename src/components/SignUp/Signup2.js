@@ -2,11 +2,12 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Signup.css";
 import UserContext from "../../Context/UserRegister";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import userEvent from "@testing-library/user-event";
+import SignUpMessage from "./SignUpMessage";
+import Loader from "../Loader/Loader";
 
 export default function Signup2() {
 	//import global state for user's input
@@ -21,27 +22,37 @@ export default function Signup2() {
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [checkbox, setCheckBox] = useState(false);
 	//state for HTTP responses
-	const [resError, setResError] = useState(null);
-	const [resSuccess, setResSuccess] = useState(null);
+	const [resMsg, setResMsg] = useState(null);
+	// const [resSuccess, setResSuccess] = useState(null);
+	const [resStatus, setResStatus] = useState(null);
 	//loader
-	const [loader, setLoader] = useState(null);
+	const [loader, setLoader] = useState(false);
 	/// register http request
-	const Register = (formValues, setResSuccess, setResError) => {
+	const Register = () => {
+		setLoader(true);
 		axios
 			.post("https://bcnetworks.herokuapp.com/onboarding/signup", {
-				firstName: formValues.firstName,
-				otherName: formValues.otherName,
-				email: formValues.email,
-				password: formValues.password,
-				comfirmPassword: formValues.confirm_password,
-				phone: formValues.phone,
+				firstName: formData1.firstName,
+				otherName: formData1.otherName,
+				email: formData1.email,
+				password: formData1.password,
+				comfirmPassword: formData1.confirm_password,
+				phone: formData1.phone,
 			})
 			.then((response) => {
-				console.log(response);
-				setResSuccess(response.data);
+				console.log(response.response.status, "success for axios");
+				setResMsg(response.response.data.message);
+				navigate("/confirmation");
 			})
 			.catch((error) => {
-				setResError(error);
+				console.log(error.response.data, "error for axios");
+				setResStatus(error.response.data.status);
+				setResMsg(error.response.data.message);
+				setTimeout(() => {
+					setResMsg(false);
+					setLoader(false);
+					navigate("/signin");
+				}, 2000);
 			});
 	};
 
@@ -50,10 +61,8 @@ export default function Signup2() {
 	const handleSubmit = () => {
 		handleValidation();
 		if (isSubmit) {
-			Register(formData1, setResSuccess, setResError);
-			clearInputs();
-			console.log(resError + "resError", resSuccess + "resrSuccess");
-			navigate("/profile");
+			Register();
+			resStatus === "success" && clearInputs();
 		}
 	};
 	const handleCheck = (e) => {
@@ -71,7 +80,12 @@ export default function Signup2() {
 
 	useEffect(() => {
 		userRef.current.focus();
-	}, [formErrors]);
+		console.log(loader);
+	}, [formErrors, loader,isSubmit]);
+	// useeffect for error message on register
+	// useEffect(() => {
+
+	// }, []);
 
 	const validate = (values) => {
 		const errors = {};
@@ -114,7 +128,7 @@ export default function Signup2() {
 		}
 		return errors;
 	};
-
+	//password toggle visibility
 	const togglePassowrdVisibility1 = () => {
 		setPasswordVisibility1(passwordVisiblility1 ? false : true);
 	};
@@ -124,6 +138,9 @@ export default function Signup2() {
 
 	return (
 		<div className="signup-container">
+			{/* add error or success message here */}
+			{resMsg && <SignUpMessage status={resStatus} message={resMsg} />}
+			{loader && <Loader />}
 			<div className="signup-row">
 				<div className="signup-header">
 					<div className="signup-title">Sign Up</div>
@@ -203,7 +220,7 @@ export default function Signup2() {
 							Ready
 						</div>
 						<div className="signup-link-to-register">
-							Already Have an Account? Sign in here
+							Already Have an Account? <Link to="/register">Sign in here</Link>
 						</div>
 					</div>
 				</div>

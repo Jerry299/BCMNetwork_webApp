@@ -7,6 +7,7 @@ import { UserProvider } from "./Context/UserRegister";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserProfile from "./components/Profile/UserProfile";
+import EmailConfirm from "./components/EmailConfirm/EmailConfirm";
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 					<Route path="/register" element={<Signup />} />
 					<Route path="/register-contd" element={<Signup2 />} />
 					<Route path="/profile" element={<UserProfile />} />
+					<Route path="/confirmation" element={<EmailConfirm />} />
 				</Routes>
 			</UserProvider>
 		</BrowserRouter>

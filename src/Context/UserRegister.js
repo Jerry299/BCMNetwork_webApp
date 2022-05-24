@@ -24,7 +24,6 @@ export function UserProvider({ children }) {
 			firstName: "",
 			otherName: "",
 			phone: "",
-			userType: "",
 			email: "",
 			password: "",
 			confirm_password: "",

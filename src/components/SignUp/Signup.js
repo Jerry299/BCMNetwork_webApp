@@ -21,7 +21,7 @@ export default function Signup() {
 	useEffect(() => {
 		if (Object.keys(formErrors).length === 0 && isSubmit) {
 		}
-	}, [formErrors]);
+	}, [formErrors,isSubmit]);
 
 	const validate = (values) => {
 		const errors = {};
@@ -108,25 +108,7 @@ export default function Signup() {
 						/>
 						<small className="error">{formErrors.phone}</small>
 					</div>
-					<div className="signup-register-as">
-						<label htmlFor="userType">Register as </label>
-
-						<select
-							name="userType"
-							id="signup-register-as"
-							defaultValue="none"
-							value={formData1.userType}
-							onChange={handleInputs}
-							onBlur={handleValidation}
-						>
-							<option value="none" disabled>
-								--- Choose a user type -----
-							</option>
-							<option value="admin">Admin</option>
-							<option value="user">User</option>
-						</select>
-						<small className="error">{formErrors.userType}</small>
-					</div>
+					
 					<div className="signup-next-container">
 						<Link
 							to="/register-contd"

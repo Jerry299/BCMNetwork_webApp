@@ -29,3 +29,36 @@
 		width: 99%;
 	}
 }
+
+
+/* laptop styling */
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) {
+	.landing-page-container {
+		background-color: #0b5ba1;
+		font-family: "Mulish", sans-serif;
+		height: 100vh;
+	}
+	.landing-page-row {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+	.landing-title {
+		font-style: normal;
+		font-weight: 900;
+		font-size: 36px;
+		line-height: 45px;
+		text-align: center;
+		color: #ffffff;
+	}
+	.landing-body {
+		font-style: normal;
+		font-weight: 200;
+		font-size: 16px;
+		line-height: 20px;
+		text-align: center;
+		color: #ffffff;
+		width: 99%;
+	}
+}

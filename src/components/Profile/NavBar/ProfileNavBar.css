@@ -1,0 +1,48 @@
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+	/* Styles */
+	.profile-nav-container {
+		height: 70px;
+	}
+	.profile-nav-container .profile-nav-row {
+		display: flex;
+		justify-content: space-between;
+		/* padding: 0.7rem; */
+	}
+	.profile-user-name {
+		display: flex;
+		padding: 10px;
+	}
+	.profile-user-name .profile-name .welcome {
+		font-family: "Mulish";
+		font-style: normal;
+		font-weight: 600;
+		font-size: 12px;
+		line-height: 15px;
+		color: #bebebe;
+	}
+	.profile-name {
+		padding: 0px 10px;
+	}
+	.profile-username {
+		font-family: "Mulish";
+		font-style: normal;
+		font-weight: 700;
+		font-size: 20px;
+		line-height: 25px;
+		color: #152c07;
+	}
+
+	.profile-hamburger {
+		width: 30%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		padding-right: 10px;
+	}
+	.profile-hamburger .burger {
+		width: 25px;
+		height: 2px;
+		background: #000000;
+		margin-bottom: 5px;
+	}
+}

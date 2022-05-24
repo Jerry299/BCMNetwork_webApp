@@ -1,0 +1,22 @@
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+	.wallet-container {
+		/* background-color: red; */
+	}
+
+	/* stlying for the board component  */
+	.board-container {
+		padding-top: 1.8rem;
+	}
+	.board-row {
+		width: 85%;
+		margin: 0 auto;
+		background-color: #0b5ba1;
+		background-image: url("../../../images/walletBG.png");
+		background-position: right 90% bottom 0%;
+        background-repeat: no-repeat;
+		height: 112px;
+        border-radius: 10px;
+	}
+
+	/* stlying for the board component  */
+}

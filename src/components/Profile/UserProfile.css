@@ -1,0 +1,7 @@
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+	/* Styles */
+    .user-profile-container{
+        background: #E5E5E5;
+        width: 100%;
+    }
+}
