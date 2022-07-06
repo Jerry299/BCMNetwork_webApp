@@ -1,18 +1,28 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import axios from "axios";
+import React, { useState, useContext, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Space, Spin } from "antd";
+import { toast } from "react-toastify";
+import "antd/es/spin/style/css";
 import "./Signup.css";
+//we used context just for user form info, we would be upgrading to redux soon
 import UserContext from "../../Context/UserRegister";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { register } from "../../features/userSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import SignUpMessage from "./SignUpMessage";
-import Loader from "../Loader/Loader";
+
+// import SignUpMessage from "./SignUpMessage";
+// import Loader from "../Loader/Loader";
 
 export default function Signup2() {
-	//import global state for user's input
+	//import context state for user's input
 	const { formData1, handleInputs, clearInputs } = useContext(UserContext);
-	const userRef = useRef();
+
+	const dispatch = useDispatch();
+	const { isError, isLoading, user, isSuccess, message } = useSelector(
+		(state) => state.userReducer
+	);
 
 	// state for passwod visibilty
 	const [passwordVisiblility1, setPasswordVisibility1] = useState(false);
@@ -22,47 +32,56 @@ export default function Signup2() {
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [checkbox, setCheckBox] = useState(false);
 	//state for HTTP responses
-	const [resMsg, setResMsg] = useState(null);
-	// const [resSuccess, setResSuccess] = useState(null);
-	const [resStatus, setResStatus] = useState(null);
-	//loader
-	const [loader, setLoader] = useState(false);
+	// const [resMsg, setResMsg] = useState(null);
+	// // const [resSuccess, setResSuccess] = useState(null);
+	// const [resStatus, setResStatus] = useState(null);
+	// //loader
+	// const [loader, setLoader] = useState(false);
 	/// register http request
-	const Register = () => {
-		setLoader(true);
-		axios
-			.post("https://bcnetworks.herokuapp.com/onboarding/signup", {
-				firstName: formData1.firstName,
-				otherName: formData1.otherName,
-				email: formData1.email,
-				password: formData1.password,
-				comfirmPassword: formData1.confirm_password,
-				phone: formData1.phone,
-			})
-			.then((response) => {
-				console.log(response.response.status, "success for axios");
-				setResMsg(response.response.data.message);
-				navigate("/confirmation");
-			})
-			.catch((error) => {
-				console.log(error.response.data, "error for axios");
-				setResStatus(error.response.data.status);
-				setResMsg(error.response.data.message);
-				setTimeout(() => {
-					setResMsg(false);
-					setLoader(false);
-					navigate("/signin");
-				}, 2000);
-			});
-	};
+	// https://bcnetworks.herokuapp.com/onboarding/signup
+	// const Register = () => {
+	// 	setLoader(true);
+	// 	axios
+	// 		.post("http://localhost:5000/api/v1/user/register", {
+	// 			firstName: formData1.firstName,
+	// 			otherName: formData1.otherName,
+	// 			email: formData1.email,
+	// 			password: formData1.password,
+	// 			comfirmPassword: formData1.confirm_password,
+	// 			phone: formData1.phone,
+	// 		})
+	// 		.then((response) => {
+	// 			console.log(response, "success for axios");
+	// 			setResMsg(response.data.message);
+	// 			navigate("/confirmation");
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error.response.data, "error for axios");
+	// 			setResStatus(error.response.data.status);
+	// 			setResMsg(error.response.data.message);
+	// 			setTimeout(() => {
+	// 				setResMsg(false);
+	// 				setLoader(false);
+	// 				navigate("/register");
+	// 			}, 2000);
+	// 		});
+	// };
 
-	let navigate = useNavigate();
-
+	const navigate = useNavigate();
+	// console.log(formData1);
 	const handleSubmit = () => {
+		const newData = {
+			firstName: formData1.firstName,
+			otherName: formData1.otherName,
+			email: formData1.email,
+			password: formData1.password,
+			comfirmPassword: formData1.confirm_password,
+			phone: formData1.phone,
+		};
 		handleValidation();
 		if (isSubmit) {
-			Register();
-			resStatus === "success" && clearInputs();
+			// 	resStatus === "success" && clearInputs();
+			dispatch(register(newData));
 		}
 	};
 	const handleCheck = (e) => {
@@ -78,14 +97,26 @@ export default function Signup2() {
 		setFormErrors(validate(formData1));
 	};
 
-	useEffect(() => {
-		userRef.current.focus();
-		console.log(loader);
-	}, [formErrors, loader,isSubmit]);
-	// useeffect for error message on register
-	// useEffect(() => {
+	// console.log(message, " Is message");
+	// console.log(isLoading, " Is Loading");
 
-	// }, []);
+	useEffect(() => {
+		if (isError) {
+			toast.error(`Error! ${message}`, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+		}
+		if (isSuccess) {
+			toast.success(
+				`Success! Please check your email and verify your account`,
+				{
+					position: toast.POSITION.TOP_LEFT,
+				}
+			);
+			clearInputs();
+			navigate("/confirmation");
+		}
+	}, [isError, isLoading, message, isSuccess, user, navigate, clearInputs]);
 
 	const validate = (values) => {
 		const errors = {};
@@ -135,12 +166,8 @@ export default function Signup2() {
 	const togglePassowrdVisibility2 = () => {
 		setPasswordVisibility2(passwordVisiblility2 ? false : true);
 	};
-
 	return (
 		<div className="signup-container">
-			{/* add error or success message here */}
-			{resMsg && <SignUpMessage status={resStatus} message={resMsg} />}
-			{loader && <Loader />}
 			<div className="signup-row">
 				<div className="signup-header">
 					<div className="signup-title">Sign Up</div>
@@ -158,7 +185,6 @@ export default function Signup2() {
 							placeholder="ac1384726@gmail.com"
 							value={formData1.email}
 							onChange={handleInputs}
-							ref={userRef}
 						/>
 						<small className="error">{formErrors.email}</small>
 					</div>
@@ -196,6 +222,7 @@ export default function Signup2() {
 							onClick={() => togglePassowrdVisibility2()}
 						/>
 					</div>
+
 					<small className="error">{formErrors.confirm_password}</small>
 					<div className="signup-signup__section">
 						<small className="error">{formErrors.checkbox}</small>
@@ -217,7 +244,15 @@ export default function Signup2() {
 							className="signup-next register-btn"
 							onClick={() => handleSubmit()}
 						>
-							Ready
+							{isLoading ? (
+								<div className="example">
+									<Space size="middle">
+										<Spin size="small" />
+									</Space>
+								</div>
+							) : (
+								"Register"
+							)}
 						</div>
 						<div className="signup-link-to-register">
 							Already Have an Account? <Link to="/register">Sign in here</Link>

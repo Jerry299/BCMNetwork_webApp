@@ -97,10 +97,11 @@
 		padding-top: 1.5rem;
 		font-weight: 600;
 	}
-	a {
+	.signin-link-to-register a {
+		color: #0b5ba1;
 		text-decoration: none;
 	}
-	a:active {
+	.signin-link-to-register a:active {
 		text-decoration: none;
 		color: red;
 	}

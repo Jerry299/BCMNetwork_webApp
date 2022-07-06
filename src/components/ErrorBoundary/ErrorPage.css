@@ -1,0 +1,27 @@
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+	.error-container {
+		height: 100vh;
+		background-color: #f8f9d7;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.error-row {
+		width: 70%;
+	}
+	.error-row #icon {
+		color: #ff0063;
+	}
+	.btn-ctn {
+		display: flex;
+		flex-direction: column;
+		padding-top: 1.5rem;
+	}
+	.error-btn {
+		margin-bottom: 2rem;
+		padding: 0.5rem;
+		background-color: #00ffab;
+		color: #570a57;
+		font-family: "Mulish";
+	}
+}

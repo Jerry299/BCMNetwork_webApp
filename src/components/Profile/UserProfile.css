@@ -1,7 +1,166 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 	/* Styles */
-    .user-profile-container{
-        background: #E5E5E5;
-        width: 100%;
-    }
+	.user-profile-container {
+		background: #e5e5e5;
+		width: 100%;
+		height: 100vh;
+	}
+
+	/* profile Navbar */
+	/* Styles */
+	.profile-nav-container {
+		height: 70px;
+	}
+	.profile-nav-container .profile-nav-row {
+		display: flex;
+		justify-content: space-between;
+		/* padding: 0.7rem; */
+	}
+	.profile-user-name {
+		display: flex;
+		padding: 10px;
+	}
+	.profile-user-name .profile-name .welcome {
+		font-family: "Mulish";
+		font-style: normal;
+		font-weight: 600;
+		font-size: 12px;
+		line-height: 15px;
+		color: #bebebe;
+	}
+	.profile-name {
+		padding: 0px 10px;
+	}
+	.profile-username {
+		font-family: "Mulish";
+		font-style: normal;
+		font-weight: 700;
+		font-size: 20px;
+		line-height: 25px;
+		color: #152c07;
+	}
+
+	.profile-hamburger {
+		width: 40%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		padding-right: 20px;
+		color: #152c07;
+	}
+	.profile-hamburger .burger {
+		width: 25px;
+		height: 2px;
+		background: #000000;
+		margin-bottom: 5px;
+	}
+	/* wallet */
+	.wallet-container {
+		/* background-color: red; */
+		height: 100vh;
+	}
+	a {
+		text-decoration: none;
+		color: #ffffff;
+	}
+	.wallet-row {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	/* stlying for the board component  */
+	.board-container {
+		padding-top: 1.8rem;
+		color: #ffffff;
+	}
+	.board-row {
+		background-color: #0b5ba1;
+		background-image: url("../../images/walletBG.png");
+		background-position: right 90% bottom 0%;
+		background-repeat: no-repeat;
+		height: 120px;
+		border-radius: 10px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 2rem;
+		width: 90%;
+		margin: 0 auto;
+	}
+	.board-row .board .board-main-account {
+		font-family: "Mulish";
+		font-style: normal;
+		font-weight: 700;
+		font-size: 32px;
+		line-height: 40px;
+		text-align: center;
+	}
+	.board-row .board-indicator {
+		background-color: #ffffff;
+		font-family: "Mulish";
+		font-style: normal;
+		font-weight: 700;
+		font-size: 12px;
+		line-height: 15px;
+		text-align: center;
+		padding: 0.6rem;
+		color: #0b5ba1;
+		border-radius: 10px;
+	}
+
+	/* stlying for the board component  */
+
+	/* stlying for the transaction component  */
+	.transactions-container {
+		padding-top: 3.5rem;
+		width: 90%;
+		margin: 0 auto;
+	}
+	.transactions-row {
+		display: flex;
+		justify-content: space-between;
+	}
+	.fund-wallet,
+	.withdraw {
+		font-family: "Inter";
+		font-style: normal;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 19px;
+		text-align: center;
+		color: #ffffff;
+		border-radius: 5px;
+		padding: 16px 32px;
+		gap: 12px;
+		background: #0b5ba1;
+	}
+	.account-card-container {
+		margin-top: 3rem;
+	}
+	.account-card-row {
+		width: 90%;
+		margin: 0 auto;
+	}
+	.card-item {
+		background: #ffffff;
+		margin-bottom: 2rem;
+		border-radius: 5px;
+		height: 68px;
+	}
+	.account-card-inner {
+		display: flex;
+		justify-content: space-between;
+		padding: 10px 5px;
+		font-family: "Inter";
+		font-style: normal;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 19px;
+		color: #000000;
+	}
+	.account-dollar-bal,
+	.account-btc-bal {
+		padding-right: 1.2rem;
+	}
+	/* AccountCardItem component styling here */
 }

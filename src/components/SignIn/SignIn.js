@@ -1,22 +1,37 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Space, Spin } from "antd";
+import { login } from "../../features/userSlice";
+import { toast } from "react-toastify";
+import "antd/es/spin/style/css";
+// import axios from "axios";
 import "./SignIn.css";
-import { Outlet, Link } from "react-router-dom";
-import SignUpMessage from "../SignUp/SignUpMessage";
-import Loader from "../Loader/Loader";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+// import SignUpMessage from "../SignUp/SignUpMessage";
+// import Loader from "../Loader/Loader";
+// import useAuth from "../../hooks/useAuth";
 
 export default function SignIn() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [formErrors, setFormErrors] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
+
+	const dispatch = useDispatch();
+	const { isError, isLoading, user, isSuccess, message } = useSelector(
+		(state) => state.userReducer
+	);
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/profile";
+
+	//console.log(loggedInUser);
 	//state for HTTP responses
-	const [resMsg, setResMsg] = useState(null);
-	// const [resSuccess, setResSuccess] = useState(null);
-	const [resStatus, setResStatus] = useState(null);
-	//loader
-	const [loader, setLoader] = useState(false);
+	// const [resMsg, setResMsg] = useState(null);
+	// // const [resSuccess, setResSuccess] = useState(null);
+	// const [resStatus, setResStatus] = useState(null);
+	// //loader
+	// const [loader, setLoader] = useState(false);
 	//handle inputs
 	const handleEmail = (e) => {
 		setEmail(e.target.value);
@@ -24,40 +39,65 @@ export default function SignIn() {
 	const handlePassword = (e) => {
 		setPassword(e.target.value);
 	};
-	let navigate = useNavigate();
-	// console.log(email, password + " email password here");
 
+	// console.log(email, password + " email password here");
+	//original url = https://bcnetworks.herokuapp.com/auth/login  http://localhost:5000/api/v1/user/login
 	//login
-	const Login = () => {
-		setLoader(true);
-		axios
-			.post("https://bcnetworks.herokuapp.com/auth/login", {
-				email,
-				password,
-			})
-			.then((response) => {
-				console.log(response.response, "success for axios");
-				setResMsg(response.response.data.message);
-				navigate("/profile");
-			})
-			.catch((error) => {
-				console.log(error.response.data, "error for axios");
-				setResStatus(error.response);
-				setResMsg(error.response.data.message);
-				setTimeout(() => {
-					setResMsg(false);
-					setLoader(false);
-					navigate("/signin");
-				}, 2000);
-			});
-	};
+	// const Login = () => {
+	// 	setLoader(true);
+	// 	axios
+	// 		.post("https://bcnetworks.herokuapp.com/auth/login", { email, password })
+	// 		.then((response) => {
+	// 			setLoggedInUser(response.data.data);
+	// 			setResMsg(response.data.message);
+	// 			setResStatus(response.data.status);
+	// 			// localStorage.setItem(
+	// 			// 	"BCNUSER",
+	// 			// 	JSON.stringify(response.data.data.email)
+	// 			// );
+	// 			setTimeout(() => {
+	// 				navigate(from, { replace: true });
+	// 			}, 2000);
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error, "error for axios");
+	// 			setIsAuthenticated(error.response.data.status);
+	// 			setResStatus(error.response.data.status);
+	// 			setResMsg(error.response.data.message);
+	// 			setTimeout(() => {
+	// 				setResMsg(false);
+	// 				setLoader(false);
+	// 				navigate("/signin");
+	// 			}, 2000);
+	// 		});
+	// };
+
 	//handle submit
 	const handleSubmit = () => {
-		console.log(isSubmit)
+		const newData = { email, password };
 		if (isSubmit) {
-			Login();
+			dispatch(login(newData));
 		}
 	};
+	useEffect(() => {
+		// if (user.data.token) {
+		// 	navigate("/profile", { replace: true });
+		// }
+		if (isError) {
+			toast.error(`Error! ${message}`, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+		}
+		if (isSuccess) {
+			toast.success(`Success! Logged In Successfully`, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+
+			navigate(from, { replace: true });
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isError, isSuccess, user, isLoading, message, navigate]);
+
 	useEffect(() => {
 		let values = {
 			email,
@@ -90,19 +130,18 @@ export default function SignIn() {
 		} else if (values.password.length < 8) {
 			errors.password = "Password Should Contain At Least 8 characters.";
 		}
-		console.log(Object.keys(errors).length,errors)
-		if (Object.keys(errors).length === 0) {
+
+		if (errors.email.length === 0 && errors.password.length === 0) {
 			setIsSubmit(true);
 		} else {
 			setIsSubmit(false);
 		}
+
 		return errors;
 	};
 
 	return (
 		<div className="signin-container">
-			{resMsg && <SignUpMessage status={resStatus} message={resMsg} />}
-			{loader && <Loader />}
 			<div className="signin-row">
 				<div className="signin-header">
 					<div className="signin-title">BCNetwork</div>
@@ -138,7 +177,15 @@ export default function SignIn() {
 					<div className="signin-forgot-password">
 						<div className="forgot-password">Forgot password?</div>
 						<div className="signin-submit" onClick={handleSubmit}>
-							ENTER
+							{isLoading ? (
+								<div className="example">
+									<Space size="middle">
+										<Spin size="small" />
+									</Space>
+								</div>
+							) : (
+								"Log In"
+							)}
 						</div>
 						<div className="signin-link-to-register">
 							Don't have an account yet?{" "}
@@ -147,7 +194,6 @@ export default function SignIn() {
 					</div>
 				</div>
 			</div>
-			<Outlet />
 		</div>
 	);
 }

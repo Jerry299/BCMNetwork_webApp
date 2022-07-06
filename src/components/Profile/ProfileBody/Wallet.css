@@ -1,22 +1,79 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 	.wallet-container {
 		/* background-color: red; */
+		height: 100vh;
+	}
+	a{
+		text-decoration: none;
+		color: #ffffff;
+	}
+	.wallet-row {
+		width: 90%;
+		margin: 0 auto;
 	}
 
 	/* stlying for the board component  */
 	.board-container {
 		padding-top: 1.8rem;
+		color: #ffffff;
 	}
 	.board-row {
-		width: 85%;
-		margin: 0 auto;
 		background-color: #0b5ba1;
 		background-image: url("../../../images/walletBG.png");
 		background-position: right 90% bottom 0%;
-        background-repeat: no-repeat;
-		height: 112px;
-        border-radius: 10px;
+		background-repeat: no-repeat;
+		height: 120px;
+		border-radius: 10px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 2rem;
+	}
+	.board-row .board .board-main-account {
+		font-family: "Mulish";
+		font-style: normal;
+		font-weight: 700;
+		font-size: 32px;
+		line-height: 40px;
+		text-align: center;
+	}
+	.board-row .board-indicator {
+		background-color: #ffffff;
+		font-family: "Mulish";
+		font-style: normal;
+		font-weight: 700;
+		font-size: 12px;
+		line-height: 15px;
+		text-align: center;
+		padding: 0.6rem;
+		color: #0b5ba1;
+		border-radius: 10px;
 	}
 
 	/* stlying for the board component  */
+
+	/* stlying for the transaction component  */
+	.transactions-container {
+		padding-top: 3.5rem;
+	}
+	.transactions-row {
+		display: flex;
+		justify-content: space-between;
+	}
+	.fund-wallet,
+	.withdraw {
+		font-family: "Inter";
+		font-style: normal;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 19px;
+		text-align: center;
+		color: #ffffff;
+		border-radius: 5px;
+		padding: 16px 32px;
+		gap: 12px;
+		background: #0b5ba1;
+	}
+
+	/* stlying for the transaction component  */
 }

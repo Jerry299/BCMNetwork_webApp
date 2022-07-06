@@ -1,0 +1,27 @@
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+	/* AccountCardItem component styling here */
+	.account-card-container {
+		margin-top: 3rem;
+	}
+	.card-item {
+		background: #ffffff;
+		margin-bottom: 2rem;
+		border-radius: 5px;
+		height: 68px;
+	}
+	.account-card-inner {
+		display: flex;
+		justify-content: space-between;
+		padding: 10px 5px;
+		font-family: "Inter";
+		font-style: normal;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 19px;
+		color: #000000;
+	}
+    .account-dollar-bal, .account-btc-bal{
+        padding-right: 1.2rem;
+    }
+	/* AccountCardItem component styling here */
+}

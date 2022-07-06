@@ -33,11 +33,12 @@
 	}
 
 	.profile-hamburger {
-		width: 30%;
+		width: 40%;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
-		padding-right: 10px;
+		padding-right: 20px;
+		color: #152c07;
 	}
 	.profile-hamburger .burger {
 		width: 25px;

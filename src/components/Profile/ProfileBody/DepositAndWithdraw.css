@@ -1,0 +1,119 @@
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+	/* deposit component styling starts */
+	.deposit-row,
+	.withdraw-row {
+		padding: 1.2rem;
+	}
+	.deposit-header {
+		text-align: center;
+	}
+	.deposit-form {
+		width: 90%;
+		margin: 0 auto;
+	}
+	.deposit-form-item,
+	.withdraw-form-item {
+		margin-bottom: 2rem;
+	}
+	.deposit-rate {
+		padding: 1.3rem;
+	}
+	.deposit-rate div {
+		font-weight: 600;
+		text-align: center;
+	}
+	.deposit-form-item input {
+		width: 100%;
+		background: #ffffff;
+		outline: none;
+		border: 0.5px solid #ece5c7;
+		box-shadow: 0px 2px 10px rgb(51 51 51 / 10%);
+		border-radius: 3px;
+		height: 42px;
+		margin-top: 10px;
+	}
+
+	.deposit-form-item label {
+		font-family: "Montserrat";
+		font-style: normal;
+		font-weight: 700;
+		font-size: 14px;
+		line-height: 17px;
+		text-align: center;
+		color: #646fd4;
+	}
+	input.readonly {
+		background-color: #d5d8b5;
+		padding-left: 1.2rem;
+		font-family: "Inter", sans-serif;
+	}
+	.deposit-form-item .required {
+		color: #f32424;
+		font-size: 10px;
+	}
+	.deposit-form .deposit-next,
+	.withdraw-btn {
+		padding: 11px 0px;
+		text-align: center;
+		background: #0b5ba1;
+		border-radius: 4px;
+		font-size: 12px;
+		line-height: 16px;
+		color: #ffffff;
+		cursor: pointer;
+		margin-top: 4rem;
+	}
+	.deposit-form a,
+	.withdraw-form a {
+		text-decoration: none;
+		color: #ffffff;
+	}
+	/* deposit component styling ends */
+
+	/* deposit2 component styling starts */
+	#deposit-form-item-1 {
+		position: relative;
+	}
+	.wallet-address {
+		color: #a2b38b;
+	}
+	.deposit-form .copy {
+		display: flex;
+		align-items: center;
+		opacity: 1;
+		transition: all 0.1s ease;
+		color: #4b7be5;
+		bottom: 14px;
+		right: 7px;
+		position: absolute;
+		padding: 5px;
+		background-color: #eeeeee;
+	}
+	.deposit-form-item-1 {
+		position: relative;
+	}
+	.deposit-form-item-1 p {
+		padding: 5px;
+		color: #a0bcc2;
+		word-wrap: break-word;
+		box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+	}
+	.tooltip {
+		color: #8bdb81;
+		font-weight: 700;
+	}
+	.tooltip.appear {
+		animation: appear 1s ease;
+	}
+	.submit {
+		margin-top: 2rem;
+	}
+	/* deposit component styling ends */
+
+	/* withdraw component styling starts */
+	.withdraw-balance {
+		font-weight: 600;
+		color: #1B2430;
+	}
+	/* withdraw component styling ends */
+}

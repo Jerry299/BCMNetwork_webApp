@@ -114,7 +114,7 @@ export default function Signup() {
 							to="/register-contd"
 							style={{
 								color: "white",
-								pointerEvents: isSubmit ? "" : "none",
+								// pointerEvents: isSubmit ? "" : "none",
 							}}
 						>
 							<div className="signup-next" onClick={handleValidation}>

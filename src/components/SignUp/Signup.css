@@ -435,6 +435,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		transition: all 0.3s ease-in-out;
 	}
 	.signup-message-row {
 		width: 80%;
@@ -449,4 +450,24 @@
 	.msg-success {
 		background-color: #2fdd92;
 	}
+
+	/* for loading spinner */
+	.example {
+		margin: 20px 0;
+		margin-bottom: 20px;
+		padding: 30px 50px;
+		text-align: center;
+		background: rgba(0, 0, 0, 0.05);
+		border-radius: 4px;
+	}
+	.ant-spin-dot-item {
+		color: red;
+	}
+	.ant-notification-top {
+		position: absolute !important;
+		left: 50%;
+		bottom: 50% !important;
+		margin-right: 30%;
+		transform: translate(-50%, -50%);
+	  }
 }

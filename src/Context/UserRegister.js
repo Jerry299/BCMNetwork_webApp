@@ -12,7 +12,6 @@ export function UserProvider({ children }) {
 		password: "",
 		confirm_password: "",
 	});
-
 	const handleInputs = (e) => {
 		setFormData1({
 			...formData1,
@@ -28,6 +27,8 @@ export function UserProvider({ children }) {
 			password: "",
 			confirm_password: "",
 		});
+
+		
 	};
 	return (
 		<UserContext.Provider value={{ formData1, handleInputs, clearInputs }}>
