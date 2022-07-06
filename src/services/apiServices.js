@@ -5,6 +5,7 @@ import {
 	getUser,
 	uploadProofUrl,
 	depositUrl,
+	withdrawUrl,
 } from "./urls";
 
 export const registerUser = async (data) => {
@@ -51,6 +52,15 @@ export const deposit = async (data) => {
 		method: "POST",
 		url: depositUrl,
 		data,
+	});
+	return response.data;
+};
+export const withdrawal = async (data, token) => {
+	let response = await axios({
+		method: "POST",
+		url: withdrawUrl,
+		data,
+		headers: { Authorization: `Bearer ${token}` },
 	});
 	return response.data;
 };

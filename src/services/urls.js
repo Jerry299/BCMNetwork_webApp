@@ -4,3 +4,4 @@ export const loginUrl = `${baseUrl}auth/login`;
 export const getUser = `${baseUrl}wallet/`;
 export const uploadProofUrl = `${baseUrl}deposit/update/:ref`;
 export const depositUrl = `${baseUrl}deposit/create`
+export const withdrawUrl = `${baseUrl}withdrawal/create`

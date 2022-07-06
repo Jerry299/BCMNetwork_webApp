@@ -18,16 +18,8 @@ const formatter = new Intl.NumberFormat("en-US", {
 export default function UserProfile() {
 	//const location = useLocation();
 	const { user } = useSelector((state) => state.userReducer);
-	const {
-		isError,
-		message,
-		combined,
-		roi,
-		commission,
-		main,
-		isSuccess,
-		isLoading,
-	} = useSelector((state) => state.investorSlice);
+	const { isError, message, combined, roi, commission, main, isLoading } =
+		useSelector((state) => state.investorSlice);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

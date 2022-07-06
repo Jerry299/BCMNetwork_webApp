@@ -1,39 +1,87 @@
 import React, { useEffect, useState } from "react";
 import "./DepositAndWithdraw.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import useAuth from "../../../hooks/useAuth";
-import { numberWithCommas } from "../../../utils/formatNumber";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { Spin, Space } from "antd";
+import {
+	resetWithdrawForm,
+	makeWithdrawal,
+	setAmount,
+	setWallet,
+} from "../../../features/withdrawSlice";
+
+const formatter = new Intl.NumberFormat("en-US", {
+	style: "currency",
+	currency: "USD",
+
+	// These options are needed to round to whole numbers if that's what you want.
+	//minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+	//maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
 
 export default function Withdraw() {
-	const [amount, setAmount] = useState(null);
+	//const [amount, setAmount] = useState(null);
 	const [withdrawError, setWithdrawError] = useState("");
-	const { loggedInUser } = useAuth();
+	const dispatch = useDispatch();
+	const {
+		amountToWithdraw,
+		recieveWallet,
+		isLoading,
+		isError,
+		isSuccess,
+		message,
+	} = useSelector((state) => state.withdrawSlice);
+	const { combined } = useSelector((state) => state.investorSlice);
+	const { email } = useSelector((state) => state.userReducer.user);
 	const navigate = useNavigate();
 
-	const handleAmount = (e) => {
-		setAmount(e.target.value);
+	const handleWithdraw = () => {
+		if (
+			withdrawError.amount === "" ||
+			withdrawError.amount.length < 1 ||
+			withdrawError.amount === undefined
+		) {
+			const data = {
+				email: email,
+				amount: amountToWithdraw,
+				wallet: recieveWallet,
+			};
+			dispatch(makeWithdrawal(data));
+			dispatch(resetWithdrawForm());
+		}
 	};
-
 	useEffect(() => {
-		const value = { amount };
 		const checkAmount = (value) => {
 			const error = { amount: "" };
-			console.log(value.amount);
-			if (value.amount < 50) {
+			if (value < 50) {
 				error.amount = "Amount should be greater than 50";
-			} else if (value.amount > loggedInUser.loggedInUserMainAccount) {
+			} else if (value > combined) {
 				error.amount = "Amount exceeds your current balance";
-			} else if (!value.amount) {
+			} else if (!value) {
 				error.amount = "amount cannot be empty";
 			}
-
 			return error;
 		};
+		setWithdrawError(checkAmount(amountToWithdraw));
+	}, [amountToWithdraw, combined]);
 
-		setWithdrawError(checkAmount(value));
-	}, [amount, loggedInUser.loggedInUserMainAccount]);
+	useEffect(() => {
+		if (isError) {
+			toast.error(`Error! ${message}`, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+		}
+		if (isSuccess) {
+			toast.success(`Success! Withdrawal Underway,check wallet`, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+		}
+	}, [isSuccess, isError, message]);
+
+	useEffect(() => {});
 
 	return (
 		<div className="withdraw-container">
@@ -51,17 +99,16 @@ export default function Withdraw() {
 					</div>
 					<div className="withdraw-form-item">
 						<div className="withdraw-balance" style={{ textAlign: "center" }}>
-							Main balance is ${" "}
-							{numberWithCommas(loggedInUser.loggedInUserMainAccount)}
+							Total Balance : $ {combined}
 						</div>
 						<div className="withdraw-form-item">
 							<label>Amount</label>
 							<input
 								type="number"
-								value={amount}
-								onChange={handleAmount}
+								onChange={(e) => dispatch(setAmount(e.target.value))}
 								required
 								placeholder="Enter amount here"
+								value={amountToWithdraw}
 							/>
 							<small className="error">{withdrawError.amount}</small>
 						</div>
@@ -69,13 +116,29 @@ export default function Withdraw() {
 					<div className="withdraw-form-item">
 						<div className="withdraw-form-item">
 							<label>Recipient Wallet Address</label>
-							<input type="text" placeholder="Enter your wallet address here" />
-							<small className="error"></small>
+							<input
+								type="text"
+								placeholder="Enter your wallet address here"
+								onChange={(e) => dispatch(setWallet(e.target.value))}
+								value={recieveWallet}
+							/>
+							<small className="error">
+								Please make sure this address is correct, Action not reversable
+							</small>
 						</div>
 					</div>
-					<Link to="/deposit-contd">
-						<div className="withdraw-btn submit">Withdraw</div>
-					</Link>
+
+					<div className="withdraw-btn submit" onClick={() => handleWithdraw()}>
+						{isLoading ? (
+							<div className="example">
+								<Space size="middle">
+									<Spin size="small" />
+								</Space>
+							</div>
+						) : (
+							"Withdraw"
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
