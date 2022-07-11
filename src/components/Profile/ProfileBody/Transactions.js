@@ -8,7 +8,7 @@ export default function Transactions() {
 			<div className="transactions-row">
 				<div className="fund-wallet">
 					{" "}
-					<Link to="/deposit"> Fund Wallet</Link>
+					<Link to="/deposit" style={{textDecoration: 'none', color: "#ffffff !importtant"}}> Fund Wallet</Link>
 				</div>
 				<div className="withdraw">
 					<Link to="/withdraw">Withdraw</Link>

@@ -5,23 +5,20 @@ import { faArrowLeft, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, Link } from "react-router-dom";
 import { conversionRate } from "../../../utils/formatNumber";
 import { useSelector, useDispatch } from "react-redux";
-import {
-	setDeposit,
-	setImage,
-	resetDeposit,
-	resetImage,
-	postProof,
-	makeDeposit,
-} from "../../../features/depositSlice";
+import { Space, Spin } from "antd";
+import "antd/es/spin/style/css";
+import { toast } from "react-toastify";
+import { handleImageUpload } from "../../../hooks/imageCompression";
+import { resetDeposit, makeDeposit } from "../../../features/depositSlice";
 
 export default function Deposit() {
 	const [copied, setCopied] = useState(false);
-	//const [selectedImage, setSelectedImage] = useState(undefined);
+	const [selectedImage, setSelectedImage] = useState(undefined);
 	const [error, setError] = useState(null);
 	const dispatch = useDispatch();
-	const { amountToDeposit, imageProof, isLoading, isSuccess, isError } =
+	const { amountToDeposit, isLoading, isSuccess, isError, message } =
 		useSelector((state) => state.depositSlice);
-
+	const { email } = useSelector((state) => state.userReducer.user);
 	let navigate = useNavigate();
 	//context
 
@@ -35,31 +32,46 @@ export default function Deposit() {
 	};
 
 	const handleDeposit = () => {
+		console.log(error);
 		if (error === null) {
 			const formData = new FormData();
-			formData.append("image", imageProof);
-			try {
-				dispatch(postProof(formData));
-				try {
-					dispatch(makeDeposit(amountToDeposit));
-				} catch (error) {
-					console.log(error, " inner catch block");
-				}
-			} catch (error) {
-				console.log(error, " inner catch block");
-			}
+			formData.append("image", selectedImage);
+			formData.append("email", email);
+			formData.append("amount", amountToDeposit);
+			formData.append("rate", 0.5);
+			console.table(formData);
+			dispatch(makeDeposit(formData));
 		}
 	};
 
 	useEffect(() => {
-		if (parseInt(amountToDeposit) < Number(100)) {
+		if (parseInt(amountToDeposit) < Number(100) || !parseInt(amountToDeposit)) {
 			setError("Amount should be more that 100");
-		} else if (imageProof === undefined) {
-			setError("Proof of Payment is required.");
 		}
-		console.log(imageProof);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [amountToDeposit]);
+	useEffect(() => {
+		const controller = new AbortController();
+		if (isError) {
+			toast.error(`Error! ${message}`, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+			//dispatch(resetDeposit());
+		}
+		if (isSuccess) {
+			toast.success(`Success! Deposit Successful`, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+			dispatch(resetDeposit());
+		}
+		return () => controller.abort();
+	}, [dispatch, isError, isSuccess, message]);
+	console.table(
+		isError,
+		isSuccess,
+		isLoading,
+		message,
+		" error sucess loading msg"
+	);
 
 	let btcValue = parseFloat(conversionRate()) * parseFloat(amountToDeposit);
 
@@ -104,20 +116,23 @@ export default function Deposit() {
 						</label>
 						<input
 							type="file"
-							name={imageProof}
+							name="file"
 							onChange={(event) => {
-								dispatch(setImage(event.target.files[0]));
+								//dispatch(setImage(event.target.files[0]));
+								setSelectedImage(event.target.files[0]);
 							}}
 						/>
-						{imageProof && (
+						{selectedImage && (
 							<div>
 								<img
 									alt="not found"
 									width={"250px"}
-									src={URL.createObjectURL(imageProof)}
+									src={URL.createObjectURL(selectedImage)}
 								/>
 								<br />
-								<button onClick={() => dispatch(resetImage())}>Remove</button>
+								<button onClick={() => setSelectedImage(undefined)}>
+									Remove
+								</button>
 							</div>
 						)}
 					</div>
@@ -128,7 +143,15 @@ export default function Deposit() {
 							className="deposit-next submit"
 							onClick={() => handleDeposit()}
 						>
-							Deposit
+							{isLoading ? (
+								<div className="example">
+									<Space size="middle">
+										<Spin size="small" />
+									</Space>
+								</div>
+							) : (
+								"Deposit"
+							)}
 						</div>
 					</Link>
 				</div>

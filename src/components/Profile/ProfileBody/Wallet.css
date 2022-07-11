@@ -3,7 +3,7 @@
 		/* background-color: red; */
 		height: 100vh;
 	}
-	a{
+	a {
 		text-decoration: none;
 		color: #ffffff;
 	}
@@ -73,6 +73,11 @@
 		padding: 16px 32px;
 		gap: 12px;
 		background: #0b5ba1;
+	}
+	.fund-wallet a,
+	.withdraw a {
+		color: #ffffff !important;
+		text-decoration: none;
 	}
 
 	/* stlying for the transaction component  */

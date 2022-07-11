@@ -98,7 +98,7 @@ export default function Signup2() {
 	};
 
 	// console.log(message, " Is message");
-	// console.log(isLoading, " Is Loading");
+	//console.log(isError, " Is Loading");
 
 	useEffect(() => {
 		if (isError) {

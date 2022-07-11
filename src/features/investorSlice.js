@@ -1,10 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchUser } from "../services/apiServices";
 import { getUser } from "../services/urls";
-import { useSelector } from "react-redux";
 
 const initialState = {
-	email: null,
 	combined: 0,
 	roi: 0,
 	commission: 0,

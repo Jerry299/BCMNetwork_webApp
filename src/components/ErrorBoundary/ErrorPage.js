@@ -13,16 +13,16 @@ const ErrorPage = ({ error, errorInfo }) => {
 					<FontAwesomeIcon icon={faFaceGrimace} size="2x" id="icon" />
 				</p>
 				<h4 style={{ textAlign: "center" }}>
-					We are fixing the problem, Please Refresh or Log In.
+					We are fixing the problem, Please Log In.
 				</h4>
 				<div className="btn-ctn">
-					<Button
+					{/* <Button
 						type="primary"
 						className="error-btn"
 						onClick={() => (window.location.href = "/")}
 					>
 						Refresh Page
-					</Button>
+					</Button> */}
 					<Button
 						className="error-btn"
 						onClick={() => window.location.replace("/signin")}

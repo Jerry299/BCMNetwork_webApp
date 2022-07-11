@@ -3,14 +3,13 @@ import { registerUser, loginUser } from "../services/apiServices";
 import { registerUrl, loginUrl } from "../services/urls";
 
 // check local storage for saved user
-const user = JSON.parse(localStorage.getItem("bcn_user"));
+//const user = JSON.parse(localStorage.getItem("bcn_user"));
 
 export const register = createAsyncThunk(
 	registerUrl,
 	async (user, thunkAPI) => {
 		try {
-			const response = await registerUser(user);
-			return response;
+			return await registerUser(user).data;
 		} catch (error) {
 			const message = error.response.data.message;
 			return thunkAPI.rejectWithValue(message);
@@ -21,9 +20,6 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(loginUrl, async (user, thunkAPI) => {
 	try {
 		const response = await loginUser(user);
-		if (response?.data) {
-			localStorage.setItem("bcn_user", JSON.stringify(response.data));
-		}
 		return response.data;
 	} catch (error) {
 		const message = error.response.data.message;
@@ -32,11 +28,12 @@ export const login = createAsyncThunk(loginUrl, async (user, thunkAPI) => {
 });
 
 const initialState = {
-	user: user ? user : null,
+	user: null,
 	isError: false,
 	isLoading: false,
 	isSuccess: false,
 	message: "",
+	isLoggedIn: false,
 	token: "",
 };
 
@@ -50,9 +47,8 @@ export const userSlice = createSlice({
 			state.isSuccess = false;
 			state.message = "";
 		},
-		expiredToken: (state, action) => {
-			state.token = '';
-			state.message = action.payload;
+		expiredToken: (state) => {
+			state.token = "";
 		},
 	},
 	extraReducers: (builder) => {
@@ -60,11 +56,15 @@ export const userSlice = createSlice({
 			state.isLoading = true;
 		});
 		builder.addCase(register.fulfilled, (state, action) => {
+			console.log(action.payload);
 			state.isLoading = false;
 			state.user = action.payload;
 			state.isSuccess = true;
+			state.isError = false;
+			// state.token = action.payload.
 		});
 		builder.addCase(register.rejected, (state, action) => {
+			console.log(action.payload);
 			state.isError = true;
 			state.isLoading = false;
 			state.message = action.payload;
@@ -77,12 +77,17 @@ export const userSlice = createSlice({
 			state.isLoading = false;
 			state.user = action.payload;
 			state.isSuccess = true;
+			state.isError = false;
+			state.isLoggedIn = true;
+			state.message = action.payload;
 		});
 		builder.addCase(login.rejected, (state, action) => {
+			console.log(action, " action here ");
 			state.isError = true;
 			state.isLoading = false;
 			state.message = action.payload;
 			state.user = null;
+			state.isLoggedIn = false;
 		});
 	},
 });

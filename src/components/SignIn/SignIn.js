@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Space, Spin } from "antd";
-import { login } from "../../features/userSlice";
+import { login, reset } from "../../features/userSlice";
 import { toast } from "react-toastify";
 import "antd/es/spin/style/css";
 // import axios from "axios";
@@ -39,7 +39,7 @@ export default function SignIn() {
 	const handlePassword = (e) => {
 		setPassword(e.target.value);
 	};
-
+	let click = 0;
 	// console.log(email, password + " email password here");
 	//original url = https://bcnetworks.herokuapp.com/auth/login  http://localhost:5000/api/v1/user/login
 	//login
@@ -74,29 +74,39 @@ export default function SignIn() {
 
 	//handle submit
 	const handleSubmit = () => {
+		console.log("clicked : in sign in", click + 1);
 		const newData = { email, password };
 		if (isSubmit) {
 			dispatch(login(newData));
 		}
 	};
 	useEffect(() => {
-		// if (user.data.token) {
-		// 	navigate("/profile", { replace: true });
-		// }
+		const controller = new AbortController();
 		if (isError) {
-			toast.error(`Error! ${message}`, {
-				position: toast.POSITION.TOP_LEFT,
-			});
+			if (message === "Auth Failed") {
+				toast.error(`Error! Invalid username or password`, {
+					position: toast.POSITION.TOP_LEFT,
+				});
+				dispatch(reset());
+			} else {
+				console.log(message ," message")
+				toast.error(`Error! ${message}`, {
+					position: toast.POSITION.TOP_LEFT,
+				});
+				dispatch(reset());
+			}
 		}
 		if (isSuccess) {
 			toast.success(`Success! Logged In Successfully`, {
 				position: toast.POSITION.TOP_LEFT,
 			});
-
+			dispatch(reset());
 			navigate(from, { replace: true });
 		}
+		return () => controller.abort();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isError, isSuccess, user, isLoading, message, navigate]);
+	}, [isError, isSuccess, isLoading, message, navigate, user]);
+	//console.log(isError, isSuccess, isLoading, message, navigate, user, " chek");
 
 	useEffect(() => {
 		let values = {

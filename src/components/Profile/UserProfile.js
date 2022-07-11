@@ -23,9 +23,7 @@ export default function UserProfile() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		// console.log(!!isError, " out Error")
 		dispatch(fetchInvestor(user.email));
-		// console.log(isSuccess, isLoading);
 		if (isError) {
 			toast.error(`Error! ${message}`, {
 				position: toast.POSITION.TOP_LEFT,

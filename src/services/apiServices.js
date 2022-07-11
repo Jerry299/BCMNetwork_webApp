@@ -3,7 +3,6 @@ import {
 	loginUrl,
 	registerUrl,
 	getUser,
-	uploadProofUrl,
 	depositUrl,
 	withdrawUrl,
 } from "./urls";
@@ -35,23 +34,12 @@ export const fetchUser = async (email, token) => {
 	return response.data;
 };
 
-export const uploadDepositProof = async (file) => {
-	let response = await axios({
-		method: "POST",
-		url: uploadProofUrl,
-		file,
-		headers: {
-			"Content-Type": "multipart/form-data",
-		},
-	});
-	return response.data;
-};
-
-export const deposit = async (data) => {
+export const deposit = async (data, token) => {
 	let response = await axios({
 		method: "POST",
 		url: depositUrl,
 		data,
+		headers: { Authorization: `Bearer ${token}` },
 	});
 	return response.data;
 };
@@ -60,7 +48,10 @@ export const withdrawal = async (data, token) => {
 		method: "POST",
 		url: withdrawUrl,
 		data,
-		headers: { Authorization: `Bearer ${token}` },
+		headers: {
+			Authorization: `Bearer ${token}`,
+			"Content-Type": "multipart/form-data",
+		},
 	});
 	return response.data;
 };

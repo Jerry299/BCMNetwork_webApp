@@ -1,7 +1,7 @@
 import imageCompression from "browser-image-compression";
 
-export async function handleImageUpload(event, uploadToServer) {
-	const imageFile = event.target.files[0];
+export async function handleImageUpload(event) {
+	const imageFile = event;
 	const options = {
 		maxSizeMB: 0.4,
 		maxWidthOrHeight: 1920,
@@ -9,7 +9,8 @@ export async function handleImageUpload(event, uploadToServer) {
 	};
 	try {
 		const compressedFile = await imageCompression(imageFile, options);
-		await uploadToServer(compressedFile); // write your own logic
+		//await uploadToServer(compressedFile); // write your own logic
+		return compressedFile
 	} catch (error) {
 		console.log(error);
 	}

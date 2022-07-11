@@ -13,18 +13,28 @@ export default function ProfileNavBar({ name }) {
 						<div className="welcome">Welcome</div>
 						<div className="profile-username">{name}</div>
 					</div>
+				</section>	
+				<section className="mobile-menu-items">
+					<ul>
+						<li>Log out</li>
+					</ul>
 				</section>
-				{/* <section
-					className="profile-hamburger"
-					onClick={() => console.log("mobile menu clicked")}
-				>
-					Log Out
-				</section> */}
+				<div>
+					<div className="burger"></div>
+					<div className="burger"></div>
+					<div className="burger"></div>
+				</div>
 			</section>
 		</nav>
 	);
 }
 // {/* <section className="mobile-menu-items">
+// {/* <section
+// 					className="profile-hamburger"
+// 					onClick={() => console.log("mobile menu clicked")}
+// 				>
+// 					Log Out
+// 				</section> */}
 // 					<ul>
 // 						<li><Link>Log out</Link></li>
 // 					</ul>

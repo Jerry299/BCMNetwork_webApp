@@ -111,9 +111,13 @@
 	/* deposit component styling ends */
 
 	/* withdraw component styling starts */
-	.withdraw-balance {
+	.withdraw-form-item label {
 		font-weight: 600;
-		color: #1B2430;
+		color: #1b2430;
+		transition: all 0.3s
+	}
+	.full-width {
+		width: 100%;
 	}
 	/* withdraw component styling ends */
 }

@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { depositUrl, uploadProofUrl } from "../services/urls";
-import { deposit, uploadDepositProof } from "../services/apiServices";
+import { depositUrl } from "../services/urls";
+import { deposit } from "../services/apiServices";
 
 const initialState = {
 	amountToDeposit: 0,
-	imageProof: undefined,
 	isError: false,
 	isLoading: false,
 	isSuccess: false,
@@ -23,19 +22,6 @@ export const makeDeposit = createAsyncThunk(
 	}
 );
 
-export const postProof = createAsyncThunk(
-	uploadProofUrl,
-	async (formData, thunkAPI) => {
-		try {
-			const token = thunkAPI.getState().userReducer.user.token;
-			return await uploadDepositProof(formData, token);
-		} catch (error) {
-			const message = error.message;
-			return thunkAPI.rejectWithValue(message);
-		}
-	}
-);
-
 const depositSlice = createSlice({
 	name: "depositSlice",
 	initialState,
@@ -45,15 +31,7 @@ const depositSlice = createSlice({
 			state.isLoading = false;
 			state.isSuccess = false;
 			state.amountToDeposit = 0;
-		},
-		resetImage: (state) => {
-			state.isError = false;
-			state.isLoading = false;
-			state.isSuccess = false;
-			state.imageProof = null;
-		},
-		setImage: (state, action) => {
-			state.imageProof = action.payload;
+			state.message = "";
 		},
 		setDeposit: (state, action) => {
 			state.amountToDeposit = parseInt(action.payload);
@@ -66,25 +44,15 @@ const depositSlice = createSlice({
 		builder.addCase(makeDeposit.fulfilled, (state, action) => {
 			state.isLoading = false;
 			state.message = action.payload;
+			state.isSuccess = true;
 		});
 		builder.addCase(makeDeposit.rejected, (state, action) => {
 			state.isLoading = false;
 			state.message = action.payload;
-		});
-		builder.addCase(postProof.pending, (state) => {
-			state.isLoading = true;
-		});
-		builder.addCase(postProof.fulfilled, (state, action) => {
-			state.isLoading = false;
-			state.message = action.payload;
-		});
-		builder.addCase(postProof.rejected, (state, action) => {
-			state.isLoading = false;
-			state.message = action.payload;
+			state.isError = true;
 		});
 	},
 });
 
-export const { resetDeposit, resetImage, setImage, setDeposit } =
-	depositSlice.actions;
+export const { resetDeposit, setDeposit } = depositSlice.actions;
 export default depositSlice.reducer;
