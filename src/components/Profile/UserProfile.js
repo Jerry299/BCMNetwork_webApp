@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import profilePic from "../../images/profilePic.png";
 import { Link } from "react-router-dom";
@@ -6,6 +6,12 @@ import { Space, Spin } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchInvestor } from "../../features/investorSlice";
 import { toast } from "react-toastify";
+import {
+	UploadOutlined,
+	UserOutlined,
+	VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Menu, Drawer } from "antd";
 
 const formatter = new Intl.NumberFormat("en-US", {
 	style: "currency",
@@ -16,6 +22,8 @@ const formatter = new Intl.NumberFormat("en-US", {
 	//maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 export default function UserProfile() {
+	const [visible, setVisible] = useState(false);
+
 	//const location = useLocation();
 	const { user } = useSelector((state) => state.userReducer);
 	const { isError, message, combined, roi, commission, main, isLoading } =
@@ -30,6 +38,12 @@ export default function UserProfile() {
 			});
 		}
 	}, [isError, user.email, dispatch, message]);
+	const handleMenu = () => {
+		setVisible(true);
+	};
+	const onClose = () => {
+		setVisible(false);
+	};
 
 	return (
 		<div className="user-profile-container">
@@ -49,7 +63,12 @@ export default function UserProfile() {
 				</div>
 			) : (
 				<div className="user-profile-row">
-					<ProfileNavBar name={user?.firstName} />
+					<ProfileNavBar
+						name={user?.firstName}
+						handleMenu={handleMenu}
+						visible={visible}
+						onClose={onClose}
+					/>
 					<Board combined={combined} />
 					<Transactions />
 					<AccountCardItem commission={commission} roi={roi} main={main} />
@@ -58,7 +77,7 @@ export default function UserProfile() {
 		</div>
 	);
 }
-const ProfileNavBar = ({ name }) => {
+export const ProfileNavBar = ({ name, visible, onClose, handleMenu }) => {
 	return (
 		<nav className="profile-nav-container">
 			<section className="profile-nav-row">
@@ -71,18 +90,55 @@ const ProfileNavBar = ({ name }) => {
 						<div className="profile-username">{name}</div>
 					</div>
 				</section>
-				{/* <section
-					className="profile-hamburger"
-					onClick={() => console.log("mobile menu clicked")}
-				>
-					Log Out
-				</section> */}
+
+				<section className="mobile-menu-items">
+					<div className="burger-container" onClick={handleMenu}>
+						<div className="burger"></div>
+						<div className="burger"></div>
+						<div className="burger"></div>
+					</div>
+					<Drawer
+						
+						placement="right"
+						onClose={onClose}
+						visible={visible}
+						// style={{ backgroundColor: "#0B5BA1" }}
+					>
+						<Menu
+							mode="inline"
+							defaultSelectedKeys={["4"]}
+							items={[
+								UserOutlined,
+								VideoCameraOutlined,
+								UploadOutlined,
+								UserOutlined,
+							].map((icon, index) => ({
+								key: String(index + 1),
+								icon: React.createElement(icon),
+								label: `nav ${index + 1}`,
+							}))}
+						/>
+					</Drawer>
+				</section>
 			</section>
+			{/* {menuShow && (
+				<div className="nav-menu-container">
+					<ul className="nav-menu">
+						<li>Test 1</li>
+						<li>Test 1</li>
+						<li>Test 1</li>
+						<li>Test 1</li>
+						<li>Test 1</li>
+						<li>Test 1</li>
+						<li>Test 1</li>
+					</ul>
+				</div>
+			)} */}
 		</nav>
 	);
 };
 
-const Board = ({ combined }) => {
+export const Board = ({ combined }) => {
 	return (
 		<section className="board-container">
 			<div className="board-row">
@@ -96,7 +152,7 @@ const Board = ({ combined }) => {
 	);
 };
 
-const Transactions = () => {
+export const Transactions = () => {
 	return (
 		<div className="transactions-container">
 			<div className="transactions-row">
@@ -112,7 +168,7 @@ const Transactions = () => {
 	);
 };
 
-const AccountCardItem = ({ main, roi, commission }) => {
+export const AccountCardItem = ({ main, roi, commission }) => {
 	return (
 		<div className="account-card-container">
 			<div className="account-card-row">

@@ -46,4 +46,7 @@
 		background: #000000;
 		margin-bottom: 5px;
 	}
+	.mobile-menu-items {
+		display: block;
+	}
 }

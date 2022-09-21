@@ -48,11 +48,48 @@
 		padding-right: 20px;
 		color: #152c07;
 	}
-	.profile-hamburger .burger {
+	.mobile-menu-items .burger-container {
+		padding: 20px;
+	}
+	.mobile-menu-items .burger {
 		width: 25px;
 		height: 2px;
 		background: #000000;
 		margin-bottom: 5px;
+	}
+
+	/* nav item  */
+
+	.nav-menu-container {
+		/* z-index: 100;
+		position: relative;
+		background-color: #FFE5B4;
+		backdrop-filter: blur(5px); */
+
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 1040;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.4);
+		backdrop-filter: blur(15px);
+	}
+	.nav-menu {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		padding: 1.2rem 0;
+	}
+	.nav-menu li {
+		text-decoration: none;
+		list-style: none;
+		padding: 0.5rem 1.2rem;
+		border-bottom: 1px solid #bebebe;
+	}
+	.nav-menu li:hover {
+		background-color: #152c07;
 	}
 	/* wallet */
 	.wallet-container {

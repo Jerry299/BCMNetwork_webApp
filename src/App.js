@@ -13,7 +13,6 @@ import Deposit2 from "./components/Profile/ProfileBody/Deposit2";
 import Withdraw from "./components/Profile/ProfileBody/Withdraw";
 import { DepositProvider } from "./Context/UserDeposit";
 import ProtectedRoute from "./components/Profile/ProtectedRoute/ProtectedRoute";
-import { UserAuthProvider } from "./Context/AuthUser";
 import BigScreen from "./components/Big Screen/BigScreen";
 import useWindowSize from "./utils/useWindowSize";
 import Spinner from "./TestSpin/Spinner";

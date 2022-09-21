@@ -3,7 +3,7 @@ import userReducer from "../features/userSlice";
 import investorSlice from "../features/investorSlice";
 import depositSlice from "../features/depositSlice";
 import withdrawSlice from "../features/withdrawSlice";
-import { combineReducers } from "@reduxjs/toolkit";
+// import { combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 

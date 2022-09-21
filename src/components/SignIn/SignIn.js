@@ -39,7 +39,7 @@ export default function SignIn() {
 	const handlePassword = (e) => {
 		setPassword(e.target.value);
 	};
-	let click = 0;
+
 	// console.log(email, password + " email password here");
 	//original url = https://bcnetworks.herokuapp.com/auth/login  http://localhost:5000/api/v1/user/login
 	//login
@@ -74,7 +74,6 @@ export default function SignIn() {
 
 	//handle submit
 	const handleSubmit = () => {
-		console.log("clicked : in sign in", click + 1);
 		const newData = { email, password };
 		if (isSubmit) {
 			dispatch(login(newData));
@@ -89,7 +88,7 @@ export default function SignIn() {
 				});
 				dispatch(reset());
 			} else {
-				console.log(message ," message")
+				console.log(message, " message");
 				toast.error(`Error! ${message}`, {
 					position: toast.POSITION.TOP_LEFT,
 				});

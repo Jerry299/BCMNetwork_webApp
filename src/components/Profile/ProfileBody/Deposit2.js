@@ -14,6 +14,7 @@ import { resetDeposit, makeDeposit } from "../../../features/depositSlice";
 export default function Deposit() {
 	const [copied, setCopied] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(undefined);
+	const [imgFile, setImgFile] = useState(undefined)
 	const [error, setError] = useState(null);
 	const dispatch = useDispatch();
 	const { amountToDeposit, isLoading, isSuccess, isError, message } =
@@ -119,7 +120,15 @@ export default function Deposit() {
 							name="file"
 							onChange={(event) => {
 								//dispatch(setImage(event.target.files[0]));
-								setSelectedImage(event.target.files[0]);
+								setImgFile(event.target.files[0])
+								console.log(event.target.files[0]);
+								const reader = new FileReader();
+								reader.readAsDataURL(event.target.files[0]);
+								reader.onloadend = () => {
+								  setSelectedImage(reader.result);
+								  console.log(selectedImage , " selected images")
+								};
+								//setImgFile(event.target.files[0]);
 							}}
 						/>
 						{selectedImage && (
@@ -127,7 +136,7 @@ export default function Deposit() {
 								<img
 									alt="not found"
 									width={"250px"}
-									src={URL.createObjectURL(selectedImage)}
+									src={URL.createObjectURL(imgFile)}
 								/>
 								<br />
 								<button onClick={() => setSelectedImage(undefined)}>

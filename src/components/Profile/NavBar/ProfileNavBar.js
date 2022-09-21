@@ -13,17 +13,14 @@ export default function ProfileNavBar({ name }) {
 						<div className="welcome">Welcome</div>
 						<div className="profile-username">{name}</div>
 					</div>
-				</section>	
-				<section className="mobile-menu-items">
-					<ul>
-						<li>Log out</li>
-					</ul>
 				</section>
-				<div>
-					<div className="burger"></div>
-					<div className="burger"></div>
-					<div className="burger"></div>
-				</div>
+				<section className="mobile-menu-items">
+					<div>
+						<div className="burger"></div>
+						<div className="burger"></div>
+						<div className="burger"></div>
+					</div>
+				</section>
 			</section>
 		</nav>
 	);
